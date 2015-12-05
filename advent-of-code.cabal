@@ -19,12 +19,14 @@ library
                      , Day2
                      , Day3
                      , Day4
+                     , Day5
   ghc-options:         -Wall
   build-depends:       base >= 4.7 && < 5
                      , split
                      , hashmap
                      , bytestring
                      , cryptohash
+                     , lens
   default-language:    Haskell2010
 
 executable advent-of-code-exe

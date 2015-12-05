@@ -21,7 +21,7 @@ getAllFloors :: String -> [Int]
 getAllFloors = scanl getCharValue 0
 
 findFirstSpecificFloor :: Int -> Int -> [Int] -> Int
-findFirstSpecificFloor n z [] = z
+findFirstSpecificFloor _ z [] = z
 findFirstSpecificFloor n z (f:fs)
   | f == n = z
   | otherwise = findFirstSpecificFloor n (z+1) fs
