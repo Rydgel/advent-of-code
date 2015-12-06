@@ -9,15 +9,12 @@ import qualified Data.Array.Repa as R
 import           Data.Attoparsec.ByteString.Char8
 import           Control.Applicative
 import qualified Data.ByteString.Char8 as B
-import           Data.Time.Clock
-import           Control.Monad
 
 {- Day 6: Probably a Fire Hazard -}
 
 -- Grid {{{
 
-type Grid = R.Array R.U R.DIM2 Int
-type GridD = R.Array R.D R.DIM2 Int
+type Grid = R.Array R.D R.DIM2 Int
 type Coord = (Int,Int)
 data Range = Range Coord Coord deriving (Show)
 data Instruction = TurnOff {_range :: Range}
@@ -31,7 +28,7 @@ gridSize = 1000
 gridShape :: R.Z :. Int :. Int
 gridShape = R.Z :. gridSize :. gridSize
 
-initGrid :: GridD
+initGrid :: Grid
 initGrid = R.fromFunction gridShape $ const 0
 
 -- Yes I need an unboxed type with Repa so no ADTs
@@ -43,7 +40,7 @@ toggle n = n
 -- Kind of slow, but this lib can't work in a specific range
 -- I have to traverse everything
 -- It take 2s to do day6 but it should take a lot less like (40ms)
-workOnRange :: (Int -> Int) -> Range -> GridD -> GridD
+workOnRange :: (Int -> Int) -> Range -> Grid -> Grid
 workOnRange fun (Range (x1,y1) (x2,y2)) g = R.traverse g id f
   where f a r@(R.Z :. i :. j) = workOn i j $ a r
         workOn i' j' n
@@ -51,13 +48,13 @@ workOnRange fun (Range (x1,y1) (x2,y2)) g = R.traverse g id f
           | otherwise = n
 {-# INLINE workOnRange #-}
 
-turnOnRange :: Range -> GridD -> GridD
+turnOnRange :: Range -> Grid -> Grid
 turnOnRange = workOnRange $ const 1
 
-turnOffRange :: Range -> GridD -> GridD
+turnOffRange :: Range -> Grid -> Grid
 turnOffRange = workOnRange $ const 0
 
-toggleRange :: Range -> GridD -> GridD
+toggleRange :: Range -> Grid -> Grid
 toggleRange = workOnRange toggle
 
 countLight :: Grid -> IO Int
@@ -87,12 +84,12 @@ instructions = many $ instruction <* endOfLine
 
 -- }}}
 
-processInstruction :: GridD -> Instruction -> GridD
+processInstruction :: Grid -> Instruction -> Grid
 processInstruction g (TurnOff r) = turnOffRange r g
 processInstruction g (TurnOn r)  = turnOnRange r g
 processInstruction g (Toggle r)  = toggleRange r g
 
-processInstructions :: [Instruction] -> GridD
+processInstructions :: [Instruction] -> Grid
 processInstructions = foldl processInstruction initGrid
 
 day6 :: IO ()
@@ -100,33 +97,30 @@ day6 = do
   fileStr <- B.readFile "resources/day6.txt"
   case parseOnly instructions fileStr of
     Left e -> print e -- parsing error
-    Right is -> R.computeP (processInstructions is) >>= countLight >>= print
+    Right is -> print =<< countLight (processInstructions is)
 
 {- Day Two -}
 
-turnOnRange2 :: Range -> GridD -> GridD
+turnOnRange2 :: Range -> Grid -> Grid
 turnOnRange2 = workOnRange (+1)
 
-turnOffRange2 :: Range -> GridD -> GridD
+turnOffRange2 :: Range -> Grid -> Grid
 turnOffRange2 = workOnRange $ max 0 . subtract 1
 
-toggleRange2 :: Range -> GridD -> GridD
+toggleRange2 :: Range -> Grid -> Grid
 toggleRange2 = workOnRange (+2)
 
-processInstruction2 :: GridD -> Instruction -> GridD
+processInstruction2 :: Grid -> Instruction -> Grid
 processInstruction2 g (TurnOff r) = turnOffRange2 r g
 processInstruction2 g (TurnOn r)  = turnOnRange2 r g
 processInstruction2 g (Toggle r)  = toggleRange2 r g
 
-processInstructions2 :: [Instruction] -> GridD
+processInstructions2 :: [Instruction] -> Grid
 processInstructions2 = foldl processInstruction2 initGrid
 
 day6' :: IO ()
 day6' = do
-  timeStart <- liftM utctDayTime getCurrentTime
   fileStr <- B.readFile "resources/day6.txt"
   case parseOnly instructions fileStr of
     Left e -> print e -- parsing error
-    Right is -> R.computeP (processInstructions2 is) >>= countLight >>= print
-  timeStop <- liftM utctDayTime getCurrentTime
-  print (timeStop - timeStart)
+    Right is -> print =<< countLight (processInstructions2 is)
