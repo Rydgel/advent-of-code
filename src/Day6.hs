@@ -36,7 +36,7 @@ toggle 1 = 0
 toggle 0 = 1
 toggle n = n
 
--- Kind of slow, but this lib can't work in a specific range
+-- Kind of slow, but this lib can't work with a specific range
 -- I have to traverse everything
 -- It take 2s to do day6 but it should take a lot less like (40ms)
 workOnRange :: (Int -> Int) -> Range -> Grid -> Grid
