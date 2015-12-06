@@ -20,6 +20,7 @@ library
                      , Day3
                      , Day4
                      , Day5
+                     , Day6
   ghc-options:         -Wall
   build-depends:       base >= 4.7 && < 5
                      , split
@@ -27,6 +28,11 @@ library
                      , bytestring
                      , cryptohash
                      , lens
+                     , repa
+                     , attoparsec
+                     , text
+                     , vector
+                     , time
   default-language:    Haskell2010
 
 executable advent-of-code-exe
