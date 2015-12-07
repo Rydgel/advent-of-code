@@ -21,6 +21,7 @@ library
                      , Day4
                      , Day5
                      , Day6
+                     , Day7
   ghc-options:         -Wall
   build-depends:       base >= 4.7 && < 5
                      , split
@@ -33,6 +34,7 @@ library
                      , text
                      , vector
                      , time
+                     , memoize
   default-language:    Haskell2010
 
 executable advent-of-code-exe
