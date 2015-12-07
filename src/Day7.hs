@@ -28,7 +28,7 @@ type Memory = H.Map String Node
 -- Parsing {{{
 
 parseLine :: Parser Instruction
-parseLine = flip (,) <$> parseNode <*> (string " -> " *> many1 letter)
+parseLine = flip (,) <$> parseNode <* string " -> " <*> many1 letter
 
 parseNode :: Parser Node
 parseNode = parseNot
