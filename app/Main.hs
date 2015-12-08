@@ -10,4 +10,4 @@ module Main where
 import Day8
 
 main :: IO ()
-main = day8
+main = day8'
