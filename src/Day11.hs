@@ -12,7 +12,7 @@ inc :: Char -> (Bool, String) -> (Bool, String)
 inc x (carry, xs)
     | not carry    = (False, x:xs)
     | x == 'z'     = (True, 'a':xs)
-    | x `elem` "hnk" = (False, (succ . succ $ x) : xs)
+    | x `elem` "iol" = (False, (succ . succ $ x) : xs)
     | otherwise    = (False, succ x : xs)
 
 incStr :: String -> String
@@ -25,11 +25,8 @@ hasStraight :: String -> Bool
 hasStraight = any ((>= 3) . length) . group . zipWith ($)
               (scanl' (.) id (repeat pred))
 
-hasNoIOL :: String -> Bool
-hasNoIOL s = not ('i' `elem` s || 'o' `elem` s || 'l' `elem` s)
-
 isValid :: String -> Bool
-isValid s = has2Pairs s && hasStraight s && hasNoIOL s
+isValid = liftA2 (&&) has2Pairs hasStraight
 
 getNextPassword :: String -> String
 getNextPassword = head . filter isValid . tail . iterate incStr
