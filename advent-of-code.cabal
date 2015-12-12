@@ -26,6 +26,7 @@ library
                      , Day9
                      , Day10
                      , Day11
+                     , Day12
   ghc-options:         -Wall
   build-depends:       base >= 4.7 && < 5
                      , split
@@ -39,6 +40,10 @@ library
                      , vector
                      , time
                      , memoize
+                     , aeson
+                     , lens-aeson
+                     , scientific
+                     , unordered-containers
   default-language:    Haskell2010
 
 executable advent-of-code-exe
