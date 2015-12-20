@@ -1,10 +1,10 @@
 module Day3 where
 
-import qualified Data.HashMap as H
+import qualified Data.HashMap.Strict as H
 import           Control.Arrow
 
 type Coord = (Int,Int)
-type Grid = H.Map Coord Int
+type Grid = H.HashMap Coord Int
 type Santa = (Coord,Grid)
 type RobotSanta = (Coord,Grid)
 

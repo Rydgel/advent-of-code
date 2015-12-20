@@ -6,7 +6,7 @@ import qualified Data.Text as T
 import           Data.Attoparsec.Text
 import           Data.Bits
 import           Control.Applicative
-import qualified Data.HashMap as H
+import qualified Data.HashMap.Strict as H
 import           Data.Function.Memoize (memoize)
 import           Data.Either
 
@@ -23,7 +23,7 @@ data Node = Singleton Atom
           | LShift Atom Atom
           | RShift Atom Atom deriving (Show)
 
-type Memory = H.Map String Node
+type Memory = H.HashMap String Node
 
 -- Parsing {{{
 

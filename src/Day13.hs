@@ -2,10 +2,10 @@
 
 module Day13 where
 
-import           Data.List    as L
-import qualified Data.HashMap as M
+import           Data.List           as L
+import qualified Data.HashMap.Strict as M
 import           Data.Ord
-import qualified Data.Text    as T
+import qualified Data.Text           as T
 import           Data.Attoparsec.Text
 import           Data.Either
 
@@ -27,7 +27,7 @@ parseSeat = do
   let v = x * (if s == "gain" then 1 else -1)
   return ((p, n), v)
 
-scoreNeighbors :: M.Map SeatPair Int -> [String] -> Int
+scoreNeighbors :: M.HashMap SeatPair Int -> [String] -> Int
 scoreNeighbors nm ns = sum $ map s (zip3 ns' (tail ns') (tail $ tail ns'))
     where ns' = L.take (length ns + 2) $ cycle ns
           s (l,x,r) = nm M.! (x,l) + nm M.! (x,r)

@@ -1,13 +1,13 @@
 module Day18 where
 
-import qualified Data.HashMap as M
+import qualified Data.HashMap.Strict as M
 import           Data.Maybe
 
 {- Day 18: Like a GIF For Your Yard -}
 
 type Coord = (Int,Int)
 data LightStatus = LightOpen | LightClosed deriving (Show, Eq)
-type Grid = M.Map Coord LightStatus
+type Grid = M.HashMap Coord LightStatus
 
 parseGrid :: String -> Grid
 parseGrid = fst . foldl parseChar (M.empty, (0,0))

@@ -1,6 +1,6 @@
 module Day9 where
 
-import qualified Data.HashMap as H
+import qualified Data.HashMap.Strict as H
 import Data.List
 import Data.Ord
 
@@ -9,7 +9,7 @@ import Data.Ord
 type Dist = Int
 type Node = String
 type Path = (Node, Node)
-type PathMap = H.Map Path Dist
+type PathMap = H.HashMap Path Dist
 
 readPaths :: String -> PathMap
 readPaths = H.fromList . concatMap (f . words) . lines
