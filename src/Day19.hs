@@ -29,16 +29,6 @@ singleReplacements k v src =
 uniqueSubs :: [(String, String)] -> String -> HashSet String
 uniqueSubs reps src = S.fromList $ concat [ singleReplacements k v src | (k, v) <- reps]
 
-uniquePredecessors :: [(String, String)] -> String -> HashSet String
-uniquePredecessors reps src = S.fromList $ concat [ singleReplacements v k src | (k, v) <- reps]
-
-findPathToElectron :: [(String, String)] -> String -> Int
-findPathToElectron reps = fromJust . go 0
-    where go _ [] = Nothing
-          go c "e" = Just c
-          go c s = listToMaybe . mapMaybe (go (c+1))
-                   . S.toList $ uniquePredecessors reps s
-
 part1 :: String -> Int
 part1 input = let (s:_:mappings) = reverse $ lines input
                   reps = map parseMapping mappings
@@ -50,6 +40,16 @@ day19 = do
   print $ part1 fileStr
 
 {- Part Two -}
+
+uniquePredecessors :: [(String, String)] -> String -> HashSet String
+uniquePredecessors reps src = S.fromList $ concat [ singleReplacements v k src | (k, v) <- reps]
+
+findPathToElectron :: [(String, String)] -> String -> Int
+findPathToElectron reps = fromJust . go 0
+    where go _ [] = Nothing
+          go c "e" = Just c
+          go c s = listToMaybe . mapMaybe (go (c+1))
+                   . S.toList $ uniquePredecessors reps s
 
 part2 :: String -> Int
 part2 input = let (s:_:mappings) = reverse $ lines input
