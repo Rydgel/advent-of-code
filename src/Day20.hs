@@ -14,7 +14,7 @@ input = 29000000
 answer :: Int -> Int -> IO (Either Int ())
 answer m limit = do
   let d = input `div` m
-  vect <- liftIO $ V.replicate d 0
+  vect <- V.replicate d 0
   runEitherT $ forM_ [1..d] $ \i -> do
     let b = min (d `div` i) limit
     _ <- runEitherT $ forM_ [1..b] $ \j -> do
