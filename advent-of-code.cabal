@@ -35,6 +35,7 @@ library
                      , Day18
                      , Day19
                      , Day20
+                     , Day21
   ghc-options:         -Wall
   build-depends:       base >= 4.7 && < 5
                      , split
