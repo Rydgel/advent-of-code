@@ -7,6 +7,8 @@ import Data.List
 import Data.Ord (comparing)
 import Data.Maybe
 
+{- Day 22: Wizard Simulator 20XX -}
+
 data Player = Player  { hp    :: Int
                       , dmg   :: Int
                       , armor :: Int
@@ -126,3 +128,8 @@ getBestScore bestGame = min bestGame
 
 day22 :: IO ()
 day22 = print $ simulate [Game initPlayer initBoss 0 []] (maxBound :: Int) True False
+
+{- Part Two -}
+
+day22' :: IO ()
+day22' = print $ simulate [Game initPlayer initBoss 0 []] (maxBound :: Int) True True
